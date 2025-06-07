@@ -1,0 +1,70 @@
+"use client";
+
+import { routes, type Routes } from "@/app/pwa/components/safe-area-wrapper";
+import { BottomNavbarWrapper } from "@/app/pwa/components/bottom-navbar-wrapper";
+import { cn } from "@/lib/utils";
+import { CircleUser, CogIcon, HomeIcon, InfoIcon } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const navSetup: Record<
+  Routes,
+  {
+    name: string;
+    isActive: Routes[];
+    icon: React.ReactNode;
+  }
+> = {
+  "/pwa": {
+    name: "Home",
+    isActive: ["/pwa"],
+    icon: <HomeIcon className="size-6" />,
+  },
+  "/pwa/about": {
+    name: "About",
+    isActive: ["/pwa/about"],
+    icon: <InfoIcon className="size-6" />,
+  },
+  "/pwa/profile": {
+    name: "Profile",
+    isActive: ["/pwa/profile"],
+    icon: <CircleUser className="size-6" />,
+  },
+  "/pwa/settings": {
+    name: "Settings",
+    isActive: ["/pwa/settings"],
+    icon: <CogIcon className="size-6" />,
+  },
+} as const;
+
+export function PwaBottomNavbar({ display }: { display: boolean }) {
+  const pathname = usePathname() as Routes;
+
+  if (display === false) return null;
+
+  return (
+    <BottomNavbarWrapper>
+      <nav className="max-w-global flex h-full w-full items-center justify-evenly">
+        {routes.map((route, index) => {
+          const activeRoutes = navSetup[route].isActive;
+
+          const isActive = activeRoutes.includes(pathname);
+
+          return (
+            <Link
+              key={`bottom-navbar-link-${route}-${index}`}
+              href={route}
+              className={cn(
+                "hover:bg-muted flex h-full flex-1 flex-col items-center justify-center overflow-hidden",
+                isActive && "underline",
+              )}
+            >
+              {navSetup[route].icon}
+              <div className="text-xs">{navSetup[route].name}</div>
+            </Link>
+          );
+        })}
+      </nav>
+    </BottomNavbarWrapper>
+  );
+}
