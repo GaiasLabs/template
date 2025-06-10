@@ -80,9 +80,9 @@ export function FarcasterSafeAreaWrapper({
                   : `calc(100dvh - (${verticalSafeAreaInsets} + var(--t-nav) + var(--b-nav)))`,
           }}
         >
-          <TopNavbar display={hasTopNavbar} />
+          {hasTopNavbar && <TopNavbar />}
           <div className="max-w-global mx-auto">{children}</div>
-          <BottomNavbar display={hasBottomNavbar} />
+          {hasBottomNavbar && <BottomNavbar />}
         </div>
       </>
     );
@@ -110,9 +110,9 @@ export function FarcasterSafeAreaWrapper({
               : "min-h-content-inset-t-nav-b-nav",
         )}
       >
-        <TopNavbar display={hasTopNavbar} />
+        {hasTopNavbar && <TopNavbar />}
         <div className="max-w-global mx-auto">{children}</div>
-        <BottomNavbar display={hasBottomNavbar} />
+        {hasBottomNavbar && <BottomNavbar />}
       </div>
     </>
   );

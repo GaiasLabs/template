@@ -46,10 +46,8 @@ const navSetup: Record<
   },
 } as const;
 
-export function BottomNavbar({ display }: { display: boolean }) {
+export function BottomNavbar() {
   const pathname = usePathname() as Routes;
-
-  if (display === false) return null;
 
   return (
     <BottomNavbarWrapper>
