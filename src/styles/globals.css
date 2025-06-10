@@ -12,24 +12,6 @@
   --container-global: 65ch;
 }
 
-@theme inline {
-  --spacing-b-nav: var(--b-nav);
-  --spacing-t-nav: var(--t-nav);
-
-  --spacing-r-inset: env(safe-area-inset-right);
-  --spacing-l-inset: env(safe-area-inset-left);
-  --spacing-b-inset: env(safe-area-inset-bottom);
-  --spacing-t-inset: env(safe-area-inset-top);
-
-  --spacing-b-inset-b-nav: calc(env(safe-area-inset-bottom) + var(--b-nav));
-  --spacing-t-inset-t-nav: calc(env(safe-area-inset-top) + var(--t-nav));
-
-  --spacing-content-inset: calc(100dvh - var(--y-content-inset));
-  --spacing-content-inset-t-nav: calc(100dvh - (var(--y-content-inset) + var(--t-nav)));
-  --spacing-content-inset-b-nav: calc(100dvh - (var(--y-content-inset) + var(--b-nav)));
-  --spacing-content-inset-t-nav-b-nav: calc(100dvh - (var(--y-content-inset) + var(--t-nav) + var(--b-nav)));
-}
-
 :root {
   /* The extra pixel is used to make room for the border */
   /* It can be removed if no border is used top or bottom */
@@ -74,6 +56,22 @@
 }
 
 @theme inline {
+  --spacing-b-nav: var(--b-nav);
+  --spacing-t-nav: var(--t-nav);
+
+  --spacing-r-inset: env(safe-area-inset-right);
+  --spacing-l-inset: env(safe-area-inset-left);
+  --spacing-b-inset: env(safe-area-inset-bottom);
+  --spacing-t-inset: env(safe-area-inset-top);
+
+  --spacing-b-inset-b-nav: calc(env(safe-area-inset-bottom) + var(--b-nav));
+  --spacing-t-inset-t-nav: calc(env(safe-area-inset-top) + var(--t-nav));
+
+  --spacing-content-inset: calc(100dvh - var(--y-content-inset));
+  --spacing-content-inset-t-nav: calc(100dvh - (var(--y-content-inset) + var(--t-nav)));
+  --spacing-content-inset-b-nav: calc(100dvh - (var(--y-content-inset) + var(--b-nav)));
+  --spacing-content-inset-t-nav-b-nav: calc(100dvh - (var(--y-content-inset) + var(--t-nav) + var(--b-nav)));
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
