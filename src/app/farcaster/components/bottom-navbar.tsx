@@ -1,17 +1,23 @@
 "use client";
 
 import { BottomNavbarWrapper } from "@/app/farcaster/components/bottom-navbar-wrapper";
-import {
-  routes,
-  type Routes,
-} from "@/app/farcaster/components/safe-area-wrapper";
+import { type Routes } from "@/app/farcaster/components/safe-area-wrapper";
 import { cn } from "@/lib/utils";
 import { CircleUser, CogIcon, HomeIcon, InfoIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+const navRoutes = [
+  "/farcaster",
+  "/farcaster/about",
+  "/farcaster/profile",
+  "/farcaster/settings",
+] as const satisfies Routes[];
+
+type NavRoutes = (typeof navRoutes)[number];
+
 const navSetup: Record<
-  Routes,
+  NavRoutes,
   {
     name: string;
     isActive: Routes[];
@@ -48,7 +54,7 @@ export function BottomNavbar({ display }: { display: boolean }) {
   return (
     <BottomNavbarWrapper>
       <nav className="max-w-global flex h-full w-full items-center justify-evenly">
-        {routes.map((route, index) => {
+        {navRoutes.map((route, index) => {
           const activeRoutes = navSetup[route].isActive;
 
           const isActive = activeRoutes.includes(pathname);
