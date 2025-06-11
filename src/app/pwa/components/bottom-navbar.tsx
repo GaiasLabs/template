@@ -48,7 +48,7 @@ const navSetup: Record<
 
 export function PwaBottomNavbar() {
   const pathname = usePathname();
-  useSafeArea("bottom");
+  useSafeArea({ nav: "bottom" });
 
   return (
     <BottomNavbarWrapper>

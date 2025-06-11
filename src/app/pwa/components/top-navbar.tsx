@@ -4,7 +4,7 @@ import { useSafeArea } from "@/app/pwa/components/safe-area-provider";
 import { TopNavbarWrapper } from "@/app/pwa/components/top-navbar-wrapper";
 
 export function PwaTopNavbar() {
-  useSafeArea("top");
+  useSafeArea({ nav: "top" });
 
   return (
     <TopNavbarWrapper>

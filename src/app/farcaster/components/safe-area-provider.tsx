@@ -107,7 +107,13 @@ export function SafeAreaProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function useSafeArea(nav: "top" | "bottom") {
+export function useSafeArea({
+  nav,
+  height,
+}: {
+  nav: "top" | "bottom";
+  height?: string;
+}) {
   const context = useContext(SafeAreaContext);
   if (!context) {
     throw new Error("useSafeArea must be used within a PwaSafeAreaProvider");
@@ -118,11 +124,19 @@ export function useSafeArea(nav: "top" | "bottom") {
   useEffect(() => {
     if (nav === "top") {
       setHasTopNavbar(true);
+
+      if (typeof height === "string") {
+        document.documentElement.style.setProperty("--t-nav", height);
+      }
     }
     if (nav === "bottom") {
       setHasBottomNavbar(true);
+
+      if (typeof height === "string") {
+        document.documentElement.style.setProperty("--b-nav", height);
+      }
     }
-  }, [nav, setHasBottomNavbar, setHasTopNavbar]);
+  }, [height, nav, setHasBottomNavbar, setHasTopNavbar]);
 
   return context;
 }

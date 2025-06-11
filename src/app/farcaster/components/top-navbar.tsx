@@ -4,7 +4,7 @@ import { useSafeArea } from "@/app/farcaster/components/safe-area-provider";
 import { TopNavbarWrapper } from "@/app/farcaster/components/top-navbar-wrapper";
 
 export function TopNavbar() {
-  useSafeArea("top");
+  useSafeArea({ nav: "top" });
 
   return (
     <TopNavbarWrapper>
