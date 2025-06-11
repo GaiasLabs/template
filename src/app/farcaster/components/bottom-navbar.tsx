@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { CircleUser, CogIcon, HomeIcon, InfoIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
 
 const navRoutes = [
   "/farcaster",
@@ -49,11 +48,7 @@ const navSetup: Record<
 
 export function BottomNavbar() {
   const pathname = usePathname();
-  const { setHasBottomNavbar } = useSafeArea();
-
-  useEffect(() => {
-    setHasBottomNavbar(true);
-  }, [setHasBottomNavbar]);
+  useSafeArea("bottom");
 
   return (
     <BottomNavbarWrapper>

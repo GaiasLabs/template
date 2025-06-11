@@ -64,10 +64,22 @@ export function PwaSafeAreaProvider({
   );
 }
 
-export function useSafeArea() {
+export function useSafeArea(nav: "top" | "bottom") {
   const context = useContext(SafeAreaContext);
   if (!context) {
     throw new Error("useSafeArea must be used within a PwaSafeAreaProvider");
   }
+
+  const { setHasBottomNavbar, setHasTopNavbar } = context;
+
+  useEffect(() => {
+    if (nav === "top") {
+      setHasTopNavbar(true);
+    }
+    if (nav === "bottom") {
+      setHasBottomNavbar(true);
+    }
+  }, [nav, setHasBottomNavbar, setHasTopNavbar]);
+
   return context;
 }

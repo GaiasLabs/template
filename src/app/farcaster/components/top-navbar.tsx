@@ -2,14 +2,9 @@
 
 import { useSafeArea } from "@/app/farcaster/components/safe-area-provider";
 import { TopNavbarWrapper } from "@/app/farcaster/components/top-navbar-wrapper";
-import { useEffect } from "react";
 
 export function TopNavbar() {
-  const { setHasTopNavbar } = useSafeArea();
-
-  useEffect(() => {
-    setHasTopNavbar(true);
-  }, [setHasTopNavbar]);
+  useSafeArea("top");
 
   return (
     <TopNavbarWrapper>
