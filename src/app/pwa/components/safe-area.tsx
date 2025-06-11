@@ -1,12 +1,14 @@
 "use client";
 
-// function setProperties(data: [string, string][]) {
-//   if (typeof window !== "undefined") {
-//     data.forEach(([property, value]) => {
-//       document.documentElement.style.setProperty(property, value);
-//     });
-//   }
-// }
+import { useEffect, useState } from "react";
+
+function setProperties(data: [string, string][]) {
+  if (typeof window !== "undefined") {
+    data.forEach(([property, value]) => {
+      document.documentElement.style.setProperty(property, value);
+    });
+  }
+}
 
 export function PwaSafeArea({
   children,
@@ -17,13 +19,18 @@ export function PwaSafeArea({
   topNavHeight?: string;
   bottomNavHeight?: string;
 }) {
-  // setProperties([
-  //   ["--t-nav", topNavHeight],
-  //   ["--b-nav", bottomNavHeight],
-  // ]);
-  if (typeof window !== "undefined") {
-    document.documentElement.style.setProperty("--t-nav", topNavHeight);
-    document.documentElement.style.setProperty("--b-nav", bottomNavHeight);
+  const [propertiesSetup, setPropertiesSetup] = useState(false);
+
+  useEffect(() => {
+    setPropertiesSetup(true);
+    setProperties([
+      ["--t-nav", topNavHeight],
+      ["--b-nav", bottomNavHeight],
+    ]);
+  }, [bottomNavHeight, setPropertiesSetup, topNavHeight]);
+
+  if (propertiesSetup === false) {
+    return null;
   }
 
   return (
