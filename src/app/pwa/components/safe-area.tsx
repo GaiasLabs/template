@@ -30,6 +30,7 @@ export function PwaSafeArea({
     setPropertiesSetup(true);
   }, [bottomNavHeight, setPropertiesSetup, topNavHeight]);
 
+  // Avoid rendering before properties are set to prevent layout shifts
   if (propertiesSetup === false) {
     return null;
   }
