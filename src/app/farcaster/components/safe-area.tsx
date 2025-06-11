@@ -13,18 +13,18 @@ export function SafeArea({
   bottomNavHeight?: string;
 }) {
   const { farcaster } = useFarcaster();
-
-  const [setSafeArea, setSetSafeArea] = useState(false);
+  const [safeAreaSetup, setSafeAreaSetup] = useState(false);
 
   useEffect(() => {
     // Reset the safe area insets
     document.documentElement.style.setProperty("--t-nav", topNavHeight);
     document.documentElement.style.setProperty("--b-nav", bottomNavHeight);
-    setSetSafeArea(true);
+    setSafeAreaSetup(true);
   }, [bottomNavHeight, topNavHeight]);
 
-  if (setSafeArea === false) {
-    return null; // Prevent rendering until the safe area is set
+  // Prevent layout shift by not rendering until the safe area is set
+  if (safeAreaSetup === false) {
+    return null;
   }
 
   const safeAreaInsets = farcaster?.client?.safeAreaInsets;
