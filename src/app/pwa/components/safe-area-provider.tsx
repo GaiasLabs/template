@@ -11,6 +11,14 @@ type SafeAreaContext =
 
       hasBottomNavbar: boolean;
       setHasBottomNavbar: (hasBottomNavbar: boolean) => void;
+
+      setupNav: ({
+        nav,
+        height,
+      }: {
+        nav: "top" | "bottom";
+        height?: string;
+      }) => void;
     }
   | undefined;
 
@@ -30,11 +38,35 @@ export function PwaSafeAreaProvider({
     setHasBottomNavbar(false);
   }, [pathname]);
 
+  function setupNav({
+    nav,
+    height,
+  }: {
+    nav: "top" | "bottom";
+    height?: string;
+  }) {
+    if (nav === "top") {
+      setHasTopNavbar(true);
+
+      if (typeof height === "string") {
+        document.documentElement.style.setProperty("--t-nav", height);
+      }
+    }
+    if (nav === "bottom") {
+      setHasBottomNavbar(true);
+
+      if (typeof height === "string") {
+        document.documentElement.style.setProperty("--b-nav", height);
+      }
+    }
+  }
+
   const state = {
     hasTopNavbar,
     setHasTopNavbar,
     hasBottomNavbar,
     setHasBottomNavbar,
+    setupNav,
   };
 
   return (
@@ -64,36 +96,10 @@ export function PwaSafeAreaProvider({
   );
 }
 
-export function useSafeArea({
-  nav,
-  height,
-}: {
-  nav: "top" | "bottom";
-  height?: string;
-}) {
+export function useSafeArea() {
   const context = useContext(SafeAreaContext);
   if (!context) {
     throw new Error("useSafeArea must be used within a PwaSafeAreaProvider");
   }
-
-  const { setHasBottomNavbar, setHasTopNavbar } = context;
-
-  useEffect(() => {
-    if (nav === "top") {
-      setHasTopNavbar(true);
-
-      if (typeof height === "string") {
-        document.documentElement.style.setProperty("--t-nav", height);
-      }
-    }
-    if (nav === "bottom") {
-      setHasBottomNavbar(true);
-
-      if (typeof height === "string") {
-        document.documentElement.style.setProperty("--b-nav", height);
-      }
-    }
-  }, [height, nav, setHasBottomNavbar, setHasTopNavbar]);
-
   return context;
 }
