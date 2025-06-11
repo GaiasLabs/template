@@ -22,6 +22,8 @@ export function PwaSafeArea({
   const [propertiesSetup, setPropertiesSetup] = useState(false);
 
   useEffect(() => {
+    setPropertiesSetup(false);
+
     setProperties([
       ["--t-nav", topNavHeight],
       ["--b-nav", bottomNavHeight],

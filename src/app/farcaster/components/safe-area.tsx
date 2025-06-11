@@ -26,6 +26,8 @@ export function SafeArea({
   const safeAreaInsets = farcaster?.client?.safeAreaInsets;
 
   useEffect(() => {
+    setPropertiesSetup(false);
+
     setProperties([
       ["--t-nav", topNavHeight],
       ["--b-nav", bottomNavHeight],
