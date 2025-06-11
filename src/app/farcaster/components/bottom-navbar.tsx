@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import { CircleUser, CogIcon, HomeIcon, InfoIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
 
 const navRoutes = [
   "/farcaster",
@@ -46,12 +45,10 @@ const navSetup: Record<
   },
 } as const;
 
+export const bottomNavHeight = "calc(4rem + 1px)";
+
 export function BottomNavbar() {
   const pathname = usePathname();
-
-  useEffect(() => {
-    document.documentElement.style.setProperty("--b-nav", "calc(4rem + 1px)");
-  }, []);
 
   return (
     <BottomNavbarWrapper>

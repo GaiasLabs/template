@@ -1,9 +1,13 @@
-import { PwaBottomNavbar } from "@/app/pwa/components/bottom-navbar";
+import {
+  PwaBottomNavbar,
+  bottomNavHeight,
+} from "@/app/pwa/components/bottom-navbar";
+import { PwaSafeArea } from "@/app/pwa/components/safe-area";
 import Link from "next/link";
 
 export default function Page() {
   return (
-    <>
+    <PwaSafeArea {...{ bottomNavHeight }}>
       <main className="flex gap-4">
         Settings
         <div className="grid">
@@ -13,6 +17,6 @@ export default function Page() {
         <Link href="/pwa">Go Home</Link>
       </main>
       <PwaBottomNavbar />
-    </>
+    </PwaSafeArea>
   );
 }

@@ -1,9 +1,13 @@
-import { BottomNavbar } from "@/app/farcaster/components/bottom-navbar";
+import {
+  BottomNavbar,
+  bottomNavHeight,
+} from "@/app/farcaster/components/bottom-navbar";
+import { SafeArea } from "@/app/farcaster/components/safe-area";
 import Link from "next/link";
 
 export default function Page() {
   return (
-    <>
+    <SafeArea {...{ bottomNavHeight }}>
       <main className="flex gap-4">
         Settings
         <div className="grid">
@@ -13,6 +17,6 @@ export default function Page() {
         <Link href="/farcaster">Go Home</Link>
       </main>
       <BottomNavbar />
-    </>
+    </SafeArea>
   );
 }

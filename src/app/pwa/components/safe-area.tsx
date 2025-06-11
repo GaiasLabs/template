@@ -1,20 +1,21 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-export function PwaSafeAreaProvider({
+export function PwaSafeArea({
   children,
+  topNavHeight = "0px",
+  bottomNavHeight = "0px",
 }: {
   children: React.ReactNode;
+  topNavHeight?: string;
+  bottomNavHeight?: string;
 }) {
-  const pathname = usePathname();
-
   useEffect(() => {
     // Reset the safe area insets
-    document.documentElement.style.setProperty("--t-nav", "0px");
-    document.documentElement.style.setProperty("--b-nav", "0px");
-  }, [pathname]);
+    document.documentElement.style.setProperty("--t-nav", topNavHeight);
+    document.documentElement.style.setProperty("--b-nav", bottomNavHeight);
+  }, [bottomNavHeight, topNavHeight]);
 
   return (
     <>
