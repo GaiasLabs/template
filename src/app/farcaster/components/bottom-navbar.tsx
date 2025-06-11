@@ -1,18 +1,19 @@
 "use client";
 
 import { BottomNavbarWrapper } from "@/app/farcaster/components/bottom-navbar-wrapper";
-import { type Routes } from "@/app/farcaster/components/safe-area-wrapper";
+import { useSafeArea } from "@/app/farcaster/components/safe-area-provider";
 import { cn } from "@/lib/utils";
 import { CircleUser, CogIcon, HomeIcon, InfoIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 const navRoutes = [
   "/farcaster",
   "/farcaster/about",
   "/farcaster/profile",
   "/farcaster/settings",
-] as const satisfies Routes[];
+] as const;
 
 type NavRoutes = (typeof navRoutes)[number];
 
@@ -20,7 +21,7 @@ const navSetup: Record<
   NavRoutes,
   {
     name: string;
-    isActive: Routes[];
+    isActive: string[];
     icon: React.ReactNode;
   }
 > = {
@@ -47,7 +48,12 @@ const navSetup: Record<
 } as const;
 
 export function BottomNavbar() {
-  const pathname = usePathname() as Routes;
+  const pathname = usePathname();
+  const { setHasBottomNavbar } = useSafeArea();
+
+  useEffect(() => {
+    setHasBottomNavbar(true);
+  }, [setHasBottomNavbar]);
 
   return (
     <BottomNavbarWrapper>

@@ -1,9 +1,15 @@
 "use client";
 
+import { useSafeArea } from "@/app/pwa/components/safe-area-provider";
 import { TopNavbarWrapper } from "@/app/pwa/components/top-navbar-wrapper";
+import { useEffect } from "react";
 
-export function PwaTopNavbar({ display }: { display: boolean }) {
-  if (display === false) return null;
+export function PwaTopNavbar() {
+  const { setHasBottomNavbar } = useSafeArea();
+
+  useEffect(() => {
+    setHasBottomNavbar(true);
+  }, [setHasBottomNavbar]);
 
   return (
     <TopNavbarWrapper>

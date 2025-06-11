@@ -1,41 +1,44 @@
 "use client";
 
-import { PwaBottomNavbar } from "@/app/pwa/components/bottom-navbar";
-import { PwaTopNavbar } from "@/app/pwa/components/top-navbar";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { createContext, useContext, useEffect, useState } from "react";
 
-type Path = `/${string}`;
+type SafeAreaContext =
+  | {
+      hasTopNavbar: boolean;
+      setHasTopNavbar: (hasTopNavbar: boolean) => void;
 
-export const routes = [
-  "/pwa",
-  "/pwa/about",
-  "/pwa/profile",
-  "/pwa/settings",
-] as const satisfies Path[];
+      hasBottomNavbar: boolean;
+      setHasBottomNavbar: (hasBottomNavbar: boolean) => void;
+    }
+  | undefined;
 
-export type Routes = (typeof routes)[number];
+const SafeAreaContext = createContext<SafeAreaContext>(undefined);
 
-const pathsWithTopNavbar: Routes[] = ["/pwa", "/pwa/about"] as const;
-const pathsWithBottomNavbar: Routes[] = ["/pwa", "/pwa/settings"] as const;
-
-export function PwaSafeAreaWrapper({
+export function PwaSafeAreaProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname() as Routes;
+  const pathname = usePathname();
+  const [hasTopNavbar, setHasTopNavbar] = useState(false);
+  const [hasBottomNavbar, setHasBottomNavbar] = useState(false);
 
-  let hasTopNavbar = false;
-  let hasBottomNavbar = false;
+  useEffect(() => {
+    setHasTopNavbar(false);
+    setHasBottomNavbar(false);
+  }, [pathname]);
 
-  if (typeof pathname === "string") {
-    hasTopNavbar = pathsWithTopNavbar.includes(pathname);
-    hasBottomNavbar = pathsWithBottomNavbar.includes(pathname);
-  }
+  const state = {
+    hasTopNavbar,
+    setHasTopNavbar,
+    hasBottomNavbar,
+    setHasBottomNavbar,
+  };
 
   return (
-    <>
+    <SafeAreaContext.Provider value={state}>
       <div className="bg-background h-t-inset pointer-events-none fixed top-0 right-0 left-0 z-99999" />
       <div className="bg-background h-b-inset pointer-events-none fixed right-0 bottom-0 left-0 z-99999" />
       <div
@@ -55,10 +58,16 @@ export function PwaSafeAreaWrapper({
               : "min-h-content-inset-t-nav-b-nav",
         )}
       >
-        <PwaTopNavbar display={hasTopNavbar} />
         <div className="max-w-global mx-auto">{children}</div>
-        <PwaBottomNavbar display={hasBottomNavbar} />
       </div>
-    </>
+    </SafeAreaContext.Provider>
   );
+}
+
+export function useSafeArea() {
+  const context = useContext(SafeAreaContext);
+  if (!context) {
+    throw new Error("useSafeArea must be used within a PwaSafeAreaProvider");
+  }
+  return context;
 }

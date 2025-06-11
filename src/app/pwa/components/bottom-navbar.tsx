@@ -1,17 +1,27 @@
 "use client";
 
-import { routes, type Routes } from "@/app/pwa/components/safe-area-wrapper";
 import { BottomNavbarWrapper } from "@/app/pwa/components/bottom-navbar-wrapper";
+import { useSafeArea } from "@/app/pwa/components/safe-area-provider";
 import { cn } from "@/lib/utils";
 import { CircleUser, CogIcon, HomeIcon, InfoIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+
+const navRoutes = [
+  "/pwa",
+  "/pwa/about",
+  "/pwa/profile",
+  "/pwa/settings",
+] as const;
+
+type NavRoutes = (typeof navRoutes)[number];
 
 const navSetup: Record<
-  Routes,
+  NavRoutes,
   {
     name: string;
-    isActive: Routes[];
+    isActive: string[];
     icon: React.ReactNode;
   }
 > = {
@@ -37,15 +47,18 @@ const navSetup: Record<
   },
 } as const;
 
-export function PwaBottomNavbar({ display }: { display: boolean }) {
-  const pathname = usePathname() as Routes;
+export function PwaBottomNavbar() {
+  const pathname = usePathname();
+  const { setHasBottomNavbar } = useSafeArea();
 
-  if (display === false) return null;
+  useEffect(() => {
+    setHasBottomNavbar(true);
+  }, [setHasBottomNavbar]);
 
   return (
     <BottomNavbarWrapper>
       <nav className="max-w-global flex h-full w-full items-center justify-evenly">
-        {routes.map((route, index) => {
+        {navRoutes.map((route, index) => {
           const activeRoutes = navSetup[route].isActive;
 
           const isActive = activeRoutes.includes(pathname);

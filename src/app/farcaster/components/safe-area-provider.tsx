@@ -1,54 +1,47 @@
 "use client";
 
-import { BottomNavbar } from "@/app/farcaster/components/bottom-navbar";
-import { TopNavbar } from "@/app/farcaster/components/top-navbar";
 import { cn } from "@/lib/utils";
 import { useFarcaster } from "@/providers/farcaster-provider";
 import { usePathname } from "next/navigation";
+import { createContext, useContext, useEffect, useState } from "react";
 
-type Path = `/${string}`;
+type SafeAreaContext =
+  | {
+      hasTopNavbar: boolean;
+      setHasTopNavbar: (hasTopNavbar: boolean) => void;
 
-export const routes = [
-  "/farcaster",
-  "/farcaster/about",
-  "/farcaster/profile",
-  "/farcaster/settings",
-] as const satisfies Path[];
+      hasBottomNavbar: boolean;
+      setHasBottomNavbar: (hasBottomNavbar: boolean) => void;
+    }
+  | undefined;
 
-export type Routes = (typeof routes)[number];
+const SafeAreaContext = createContext<SafeAreaContext>(undefined);
 
-const pathsWithTopNavbar: Routes[] = [
-  "/farcaster",
-  "/farcaster/about",
-] as const;
-const pathsWithBottomNavbar: Routes[] = [
-  "/farcaster",
-  "/farcaster/settings",
-] as const;
-
-export function FarcasterSafeAreaWrapper({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const pathname = usePathname() as Routes;
+export function SafeAreaProvider({ children }: { children: React.ReactNode }) {
   const { farcaster } = useFarcaster();
+  const pathname = usePathname();
+  const [hasTopNavbar, setHasTopNavbar] = useState(false);
+  const [hasBottomNavbar, setHasBottomNavbar] = useState(false);
 
-  let hasTopNavbar = false;
-  let hasBottomNavbar = false;
-
-  if (typeof pathname === "string") {
-    hasTopNavbar = pathsWithTopNavbar.includes(pathname);
-    hasBottomNavbar = pathsWithBottomNavbar.includes(pathname);
-  }
+  useEffect(() => {
+    setHasTopNavbar(false);
+    setHasBottomNavbar(false);
+  }, [pathname]);
 
   const safeAreaInsets = farcaster?.client?.safeAreaInsets;
+
+  const state = {
+    hasTopNavbar,
+    setHasTopNavbar,
+    hasBottomNavbar,
+    setHasBottomNavbar,
+  };
 
   if (typeof safeAreaInsets !== "undefined") {
     const verticalSafeAreaInsets = `${safeAreaInsets.top}px + ${safeAreaInsets.bottom}px`;
 
     return (
-      <>
+      <SafeAreaContext.Provider value={state}>
         <div
           className="bg-background pointer-events-none fixed top-0 right-0 left-0 z-99999"
           style={{ height: `${safeAreaInsets.top}px` }}
@@ -80,17 +73,15 @@ export function FarcasterSafeAreaWrapper({
                   : `calc(100dvh - (${verticalSafeAreaInsets} + var(--t-nav) + var(--b-nav)))`,
           }}
         >
-          {hasTopNavbar && <TopNavbar />}
           <div className="max-w-global mx-auto">{children}</div>
-          {hasBottomNavbar && <BottomNavbar />}
         </div>
-      </>
+      </SafeAreaContext.Provider>
     );
   }
 
   // PWA fallback for when Farcaster SDK is not available
   return (
-    <>
+    <SafeAreaContext.Provider value={state}>
       <div className="bg-background h-t-inset pointer-events-none fixed top-0 right-0 left-0 z-99999" />
       <div className="bg-background h-b-inset pointer-events-none fixed right-0 bottom-0 left-0 z-99999" />
       <div
@@ -110,10 +101,16 @@ export function FarcasterSafeAreaWrapper({
               : "min-h-content-inset-t-nav-b-nav",
         )}
       >
-        {hasTopNavbar && <TopNavbar />}
         <div className="max-w-global mx-auto">{children}</div>
-        {hasBottomNavbar && <BottomNavbar />}
       </div>
-    </>
+    </SafeAreaContext.Provider>
   );
+}
+
+export function useSafeArea() {
+  const context = useContext(SafeAreaContext);
+  if (!context) {
+    throw new Error("useSafeArea must be used within a SafeAreaProvider");
+  }
+  return context;
 }
