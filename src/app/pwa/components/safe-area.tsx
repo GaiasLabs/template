@@ -1,5 +1,13 @@
 "use client";
 
+function setProperties(data: [string, string][]) {
+  if (typeof window !== "undefined") {
+    data.forEach(([property, value]) => {
+      document.documentElement.style.setProperty(property, value);
+    });
+  }
+}
+
 export function PwaSafeArea({
   children,
   topNavHeight = "0px",
@@ -9,10 +17,11 @@ export function PwaSafeArea({
   topNavHeight?: string;
   bottomNavHeight?: string;
 }) {
-  if (typeof window !== "undefined") {
-    document.documentElement.style.setProperty("--t-nav", topNavHeight);
-    document.documentElement.style.setProperty("--b-nav", bottomNavHeight);
-  }
+  setProperties([
+    ["--t-nav", topNavHeight],
+    ["--b-nav", bottomNavHeight],
+  ]);
+
   return (
     <>
       <div className="bg-background pointer-events-none fixed top-0 right-0 left-0 z-99999 h-[env(safe-area-inset-top)]" />
