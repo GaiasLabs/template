@@ -1,7 +1,6 @@
 "use client";
 
 import { BottomNavbarWrapper } from "@/app/farcaster/components/bottom-navbar-wrapper";
-import { useSafeArea } from "@/app/farcaster/components/safe-area-provider";
 import { cn } from "@/lib/utils";
 import { CircleUser, CogIcon, HomeIcon, InfoIcon } from "lucide-react";
 import Link from "next/link";
@@ -49,11 +48,10 @@ const navSetup: Record<
 
 export function BottomNavbar() {
   const pathname = usePathname();
-  const { setupNav } = useSafeArea();
 
   useEffect(() => {
-    setupNav({ nav: "bottom" });
-  }, [setupNav]);
+    document.documentElement.style.setProperty("--b-nav", "calc(4rem + 1px)");
+  }, []);
 
   return (
     <BottomNavbarWrapper>
