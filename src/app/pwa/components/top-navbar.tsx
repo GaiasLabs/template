@@ -5,11 +5,11 @@ import { TopNavbarWrapper } from "@/app/pwa/components/top-navbar-wrapper";
 import { useEffect } from "react";
 
 export function PwaTopNavbar() {
-  const { setHasBottomNavbar } = useSafeArea();
+  const { setHasTopNavbar } = useSafeArea();
 
   useEffect(() => {
-    setHasBottomNavbar(true);
-  }, [setHasBottomNavbar]);
+    setHasTopNavbar(true);
+  }, [setHasTopNavbar]);
 
   return (
     <TopNavbarWrapper>
