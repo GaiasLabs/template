@@ -13,8 +13,10 @@ export function SafeArea({
 }) {
   const { farcaster } = useFarcaster();
 
-  document.documentElement.style.setProperty("--t-nav", topNavHeight);
-  document.documentElement.style.setProperty("--b-nav", bottomNavHeight);
+  if (typeof window !== "undefined") {
+    document.documentElement.style.setProperty("--t-nav", topNavHeight);
+    document.documentElement.style.setProperty("--b-nav", bottomNavHeight);
+  }
 
   const safeAreaInsets = farcaster?.client?.safeAreaInsets;
 

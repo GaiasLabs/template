@@ -9,9 +9,10 @@ export function PwaSafeArea({
   topNavHeight?: string;
   bottomNavHeight?: string;
 }) {
-  document.documentElement.style.setProperty("--t-nav", topNavHeight);
-  document.documentElement.style.setProperty("--b-nav", bottomNavHeight);
-
+  if (typeof window !== "undefined") {
+    document.documentElement.style.setProperty("--t-nav", topNavHeight);
+    document.documentElement.style.setProperty("--b-nav", bottomNavHeight);
+  }
   return (
     <>
       <div className="bg-background h-t-inset pointer-events-none fixed top-0 right-0 left-0 z-99999" />
