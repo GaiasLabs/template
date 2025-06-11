@@ -1,7 +1,7 @@
 "use client";
 
 import { useFarcaster } from "@/providers/farcaster-provider";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function SafeArea({
   children,
@@ -14,11 +14,18 @@ export function SafeArea({
 }) {
   const { farcaster } = useFarcaster();
 
+  const [setSafeArea, setSetSafeArea] = useState(false);
+
   useEffect(() => {
     // Reset the safe area insets
     document.documentElement.style.setProperty("--t-nav", topNavHeight);
     document.documentElement.style.setProperty("--b-nav", bottomNavHeight);
+    setSetSafeArea(true);
   }, [bottomNavHeight, topNavHeight]);
+
+  if (setSafeArea === false) {
+    return null; // Prevent rendering until the safe area is set
+  }
 
   const safeAreaInsets = farcaster?.client?.safeAreaInsets;
 
