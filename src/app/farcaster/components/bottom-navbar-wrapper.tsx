@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { useFarcaster } from "@/providers/farcaster-provider";
 
 export function BottomNavbarWrapper({
@@ -9,16 +10,16 @@ export function BottomNavbarWrapper({
 }) {
   const { farcaster } = useFarcaster();
 
-  const safeAreaInsets = farcaster?.client?.safeAreaInsets;
+  const isFarcasterMiniApp = farcaster?.client.safeAreaInsets !== undefined;
 
   return (
     <div
-      style={
-        typeof safeAreaInsets !== "undefined"
-          ? { marginBottom: `${safeAreaInsets.bottom}px` }
-          : undefined
-      }
-      className="bg-background px-safe fixed right-0 bottom-0 left-0 z-50 mb-[env(safe-area-inset-bottom)] flex h-[var(--b-nav)] justify-center border-t"
+      className={cn(
+        "bg-background px-safe fixed right-0 bottom-0 left-0 z-50 flex h-[var(--b-nav)] justify-center border-t",
+        isFarcasterMiniApp === true
+          ? "mb-[var(--fc-safe-area-inset-bottom)]"
+          : "mb-[env(safe-area-inset-bottom)]",
+      )}
     >
       {children}
     </div>
