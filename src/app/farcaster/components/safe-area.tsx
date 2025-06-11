@@ -1,6 +1,7 @@
 "use client";
 
 import { useFarcaster } from "@/providers/farcaster-provider";
+import { useEffect, useState } from "react";
 
 function setProperties(data: [string, string][]) {
   if (typeof window !== "undefined") {
@@ -20,22 +21,33 @@ export function SafeArea({
   bottomNavHeight?: string;
 }) {
   const { farcaster } = useFarcaster();
-
-  setProperties([
-    ["--t-nav", topNavHeight],
-    ["--b-nav", bottomNavHeight],
-  ]);
+  const [propertiesSetup, setPropertiesSetup] = useState(false);
 
   const safeAreaInsets = farcaster?.client?.safeAreaInsets;
 
-  if (typeof safeAreaInsets !== "undefined") {
+  useEffect(() => {
     setProperties([
-      ["--fc-safe-area-inset-top", `${safeAreaInsets.top}px`],
-      ["--fc-safe-area-inset-bottom", `${safeAreaInsets.bottom}px`],
-      ["--fc-safe-area-inset-left", `${safeAreaInsets.left}px`],
-      ["--fc-safe-area-inset-right", `${safeAreaInsets.right}px`],
+      ["--t-nav", topNavHeight],
+      ["--b-nav", bottomNavHeight],
     ]);
 
+    if (safeAreaInsets !== undefined) {
+      setProperties([
+        ["--fc-safe-area-inset-top", `${safeAreaInsets.top}px`],
+        ["--fc-safe-area-inset-bottom", `${safeAreaInsets.bottom}px`],
+        ["--fc-safe-area-inset-left", `${safeAreaInsets.left}px`],
+        ["--fc-safe-area-inset-right", `${safeAreaInsets.right}px`],
+      ]);
+    }
+
+    setPropertiesSetup(true);
+  }, [bottomNavHeight, safeAreaInsets, setPropertiesSetup, topNavHeight]);
+
+  if (propertiesSetup === false) {
+    return null;
+  }
+
+  if (safeAreaInsets !== undefined) {
     return (
       <>
         <div className="bg-background pointer-events-none fixed top-0 right-0 left-0 z-99999 h-[var(--fc-safe-area-inset-top)]" />

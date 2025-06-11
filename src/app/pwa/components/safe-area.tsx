@@ -22,11 +22,12 @@ export function PwaSafeArea({
   const [propertiesSetup, setPropertiesSetup] = useState(false);
 
   useEffect(() => {
-    setPropertiesSetup(true);
     setProperties([
       ["--t-nav", topNavHeight],
       ["--b-nav", bottomNavHeight],
     ]);
+
+    setPropertiesSetup(true);
   }, [bottomNavHeight, setPropertiesSetup, topNavHeight]);
 
   if (propertiesSetup === false) {
