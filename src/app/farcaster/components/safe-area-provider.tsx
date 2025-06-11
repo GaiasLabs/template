@@ -1,9 +1,18 @@
 "use client";
 
 import { useFarcaster } from "@/providers/farcaster-provider";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 export function SafeAreaProvider({ children }: { children: React.ReactNode }) {
   const { farcaster } = useFarcaster();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    // Reset the safe area insets
+    document.documentElement.style.setProperty("--t-nav", "0px");
+    document.documentElement.style.setProperty("--b-nav", "0px");
+  }, [pathname]);
 
   const safeAreaInsets = farcaster?.client?.safeAreaInsets;
 

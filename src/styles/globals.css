@@ -60,8 +60,11 @@
 
   --spacing-r-inset: env(safe-area-inset-right);
   --spacing-l-inset: env(safe-area-inset-left);
-  --spacing-b-inset: calc(env(safe-area-inset-bottom) + var(--b-nav));
-  --spacing-t-inset: calc(env(safe-area-inset-top) + var(--t-nav));
+  --spacing-b-inset: env(safe-area-inset-bottom);
+  --spacing-t-inset: env(safe-area-inset-top);
+
+  --spacing-b-inset-nav: calc(env(safe-area-inset-bottom) + var(--b-nav));
+  --spacing-t-inset-nav: calc(env(safe-area-inset-top) + var(--t-nav));
 
   --spacing-content-inset: calc(100dvh - (var(--y-content-inset) + var(--t-nav) + var(--b-nav)));
 
