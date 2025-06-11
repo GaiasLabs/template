@@ -2,9 +2,11 @@
 
 import { useFarcaster } from "@/providers/farcaster-provider";
 
-function setProperty(name: string, value: string) {
+function setProperties(data: [string, string][]) {
   if (typeof window !== "undefined") {
-    document.documentElement.style.setProperty(name, value);
+    data.forEach(([property, value]) => {
+      document.documentElement.style.setProperty(property, value);
+    });
   }
 }
 
@@ -19,16 +21,20 @@ export function SafeArea({
 }) {
   const { farcaster } = useFarcaster();
 
-  setProperty("--t-nav", topNavHeight);
-  setProperty("--b-nav", bottomNavHeight);
+  setProperties([
+    ["--t-nav", topNavHeight],
+    ["--b-nav", bottomNavHeight],
+  ]);
 
   const safeAreaInsets = farcaster?.client?.safeAreaInsets;
 
   if (typeof safeAreaInsets !== "undefined") {
-    setProperty("--fc-safe-area-inset-top", `${safeAreaInsets.top}`);
-    setProperty("--fc-safe-area-inset-bottom", `${safeAreaInsets.bottom}`);
-    setProperty("--fc-safe-area-inset-left", `${safeAreaInsets.left}`);
-    setProperty("--fc-safe-area-inset-right", `${safeAreaInsets.right}`);
+    setProperties([
+      ["--fc-safe-area-inset-top", `${safeAreaInsets.top}px`],
+      ["--fc-safe-area-inset-bottom", `${safeAreaInsets.bottom}px`],
+      ["--fc-safe-area-inset-left", `${safeAreaInsets.left}px`],
+      ["--fc-safe-area-inset-right", `${safeAreaInsets.right}px`],
+    ]);
 
     return (
       <>
