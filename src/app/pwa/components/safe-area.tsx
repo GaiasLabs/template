@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 export function PwaSafeArea({
   children,
   topNavHeight = "0px",
@@ -11,19 +9,8 @@ export function PwaSafeArea({
   topNavHeight?: string;
   bottomNavHeight?: string;
 }) {
-  const [safeAreaSetup, setSafeAreaSetup] = useState(false);
-
-  useEffect(() => {
-    // Reset the safe area insets
-    document.documentElement.style.setProperty("--t-nav", topNavHeight);
-    document.documentElement.style.setProperty("--b-nav", bottomNavHeight);
-    setSafeAreaSetup(true);
-  }, [bottomNavHeight, topNavHeight]);
-
-  // Prevent layout shift by not rendering until the safe area is set
-  if (safeAreaSetup === false) {
-    return null;
-  }
+  document.documentElement.style.setProperty("--t-nav", topNavHeight);
+  document.documentElement.style.setProperty("--b-nav", bottomNavHeight);
 
   return (
     <>
