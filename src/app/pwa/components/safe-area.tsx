@@ -1,5 +1,3 @@
-"use client";
-
 export function PwaSafeArea({
   children,
   topNavHeight = "0px",
