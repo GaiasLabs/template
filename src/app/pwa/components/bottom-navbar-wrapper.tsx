@@ -4,7 +4,7 @@ export function BottomNavbarWrapper({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-background h-b-nav px-safe mb-b-inset fixed right-0 bottom-0 left-0 z-50 flex justify-center border-t">
+    <div className="bg-background px-safe fixed right-0 bottom-0 left-0 z-50 mb-[env(safe-area-inset-bottom)] flex h-[var(--b-nav)] justify-center border-t">
       {children}
     </div>
   );

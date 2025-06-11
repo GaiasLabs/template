@@ -12,14 +12,6 @@
 }
 
 :root {
-  /* The extra pixel is used to make room for the border */
-  /* It can be removed if no border is used top or bottom */
-  /* The size needs to be adjusted to the border width */
-  --b-nav: 0px;
-  --t-nav: 0px;
-
-  --y-content-inset: calc(env(safe-area-inset-top) + env(safe-area-inset-bottom));
-
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -55,18 +47,6 @@
 }
 
 @theme inline {
-  --spacing-b-nav: var(--b-nav);
-  --spacing-t-nav: var(--t-nav);
-
-  --spacing-r-inset: env(safe-area-inset-right);
-  --spacing-l-inset: env(safe-area-inset-left);
-  --spacing-b-inset: env(safe-area-inset-bottom);
-  --spacing-t-inset: env(safe-area-inset-top);
-
-  --spacing-b-inset-nav: calc(env(safe-area-inset-bottom) + var(--b-nav));
-  --spacing-t-inset-nav: calc(env(safe-area-inset-top) + var(--t-nav));
-
-  --spacing-content-inset: calc(100dvh - (var(--y-content-inset) + var(--t-nav) + var(--b-nav)));
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
