@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { useFarcaster } from "@/providers/farcaster-provider";
 import { useEffect, useState } from "react";
 
@@ -50,24 +51,46 @@ export function SafeArea({
     return null;
   }
 
-  if (safeAreaInsets !== undefined) {
-    return (
-      <>
-        <div className="bg-background pointer-events-none fixed top-0 right-0 left-0 z-99999 h-[var(--fc-safe-area-inset-top)]" />
-        <div className="bg-background pointer-events-none fixed right-0 bottom-0 left-0 z-99999 h-[var(--fc-safe-area-inset-bottom)]" />
-        <div className="px-safe mt-[calc(var(--fc-safe-area-inset-top)+var(--t-nav))] mr-[var(--fc-safe-area-inset-right)] mb-[calc(var(--fc-safe-area-inset-bottom)+var(--b-nav))] ml-[var(--fc-safe-area-inset-left)] min-h-[calc(100dvh-(var(--fc-safe-area-inset-top)+var(--fc-safe-area-inset-bottom)+var(--t-nav)+var(--b-nav)))]">
-          <div className="max-w-global mx-auto">{children}</div>
-        </div>
-      </>
-    );
-  }
+  const isFarcasterMiniApp = farcaster?.client.safeAreaInsets !== undefined;
 
-  // PWA fallback for when Farcaster SDK is not available
   return (
     <>
-      <div className="bg-background pointer-events-none fixed top-0 right-0 left-0 z-99999 h-[env(safe-area-inset-top)]" />
-      <div className="bg-background pointer-events-none fixed right-0 bottom-0 left-0 z-99999 h-[env(safe-area-inset-bottom)]" />
-      <div className="px-safe mt-[calc(env(safe-area-inset-top)+var(--t-nav))] mr-[env(safe-area-inset-right)] mb-[calc(env(safe-area-inset-bottom)+var(--b-nav))] ml-[env(safe-area-inset-left)] min-h-[calc(100dvh-(env(safe-area-inset-top)+env(safe-area-inset-bottom)+var(--t-nav)+var(--b-nav)))]">
+      <div
+        className={cn(
+          "bg-background pointer-events-none fixed top-0 right-0 left-0 z-99999",
+          isFarcasterMiniApp
+            ? "h-[var(--fc-safe-area-inset-top)]"
+            : "h-[env(safe-area-inset-top)]",
+        )}
+      />
+      <div
+        className={cn(
+          "bg-background pointer-events-none fixed right-0 bottom-0 left-0 z-99999",
+          isFarcasterMiniApp
+            ? "h-[var(--fc-safe-area-inset-bottom)]"
+            : "h-[env(safe-area-inset-bottom)]",
+        )}
+      />
+      <div
+        className={cn(
+          "px-safe",
+          isFarcasterMiniApp
+            ? [
+                "mt-[calc(var(--fc-safe-area-inset-top)+var(--t-nav))]",
+                "mr-[var(--fc-safe-area-inset-right)]",
+                "mb-[calc(var(--fc-safe-area-inset-bottom)+var(--b-nav))]",
+                "ml-[var(--fc-safe-area-inset-left)]",
+                "min-h-[calc(100dvh-(var(--fc-safe-area-inset-top)+var(--fc-safe-area-inset-bottom)+var(--t-nav)+var(--b-nav)))]",
+              ]
+            : [
+                "mt-[calc(env(safe-area-inset-top)+var(--t-nav))]",
+                "mr-[env(safe-area-inset-right)]",
+                "mb-[calc(env(safe-area-inset-bottom)+var(--b-nav))]",
+                "ml-[env(safe-area-inset-left)]",
+                "min-h-[calc(100dvh-(env(safe-area-inset-top)+env(safe-area-inset-bottom)+var(--t-nav)+var(--b-nav)))]",
+              ],
+        )}
+      >
         <div className="max-w-global mx-auto">{children}</div>
       </div>
     </>
