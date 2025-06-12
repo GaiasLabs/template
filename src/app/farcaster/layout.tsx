@@ -39,6 +39,7 @@ export const metadata: Metadata = {
   other: {
     "apple-mobile-web-app-capable": "yes",
     "mobile-web-app-capable": "yes",
+    "fc:frame": stringifiedFrame,
   },
 };
 
@@ -51,7 +52,6 @@ export default function RootLayout({
       className="overscroll-none [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       suppressHydrationWarning
     >
-      <meta name="fc:frame" content={stringifiedFrame} />
       <body className="overscroll-none">
         <FarcasterProviders>{children}</FarcasterProviders>
       </body>
