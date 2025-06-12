@@ -15,7 +15,7 @@ export function BottomNavbarWrapper({
   return (
     <div
       className={cn(
-        "bg-background px-safe fixed right-0 bottom-0 left-0 z-50 flex h-[var(--b-nav)] justify-center border-t",
+        "bg-background px-safe fixed inset-x-0 bottom-0 z-50 flex h-[var(--b-nav)] justify-center border-t",
         isFarcasterMiniApp === true
           ? "mb-[var(--fc-safe-area-inset-bottom)]"
           : "mb-[env(safe-area-inset-bottom)]",

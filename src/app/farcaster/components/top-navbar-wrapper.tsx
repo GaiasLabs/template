@@ -11,7 +11,7 @@ export function TopNavbarWrapper({ children }: { children: React.ReactNode }) {
   return (
     <div
       className={cn(
-        "bg-background px-safe fixed top-0 right-0 left-0 z-50 flex h-[var(--t-nav)] w-full justify-center border-b",
+        "bg-background px-safe fixed inset-x-0 top-0 z-50 flex h-[var(--t-nav)] w-full justify-center border-b",
         isFarcasterMiniApp === true
           ? "mt-[var(--fc-safe-area-inset-top)]"
           : "mt-[env(safe-area-inset-top)]",
