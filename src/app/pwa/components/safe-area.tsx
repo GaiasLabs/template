@@ -19,21 +19,21 @@ export function PwaSafeArea({
   topNavHeight?: string;
   bottomNavHeight?: string;
 }) {
-  const [propertiesSetup, setPropertiesSetup] = useState(false);
+  const [isReadyToRender, setIsReadyToRender] = useState(false);
 
   useEffect(() => {
-    setPropertiesSetup(false);
+    setIsReadyToRender(false);
 
     setProperties([
       ["--t-nav", topNavHeight],
       ["--b-nav", bottomNavHeight],
     ]);
 
-    setPropertiesSetup(true);
-  }, [bottomNavHeight, setPropertiesSetup, topNavHeight]);
+    setIsReadyToRender(true);
+  }, [bottomNavHeight, setIsReadyToRender, topNavHeight]);
 
   // Avoid rendering before properties are set to prevent layout shifts
-  if (propertiesSetup === false) {
+  if (isReadyToRender === false) {
     return null;
   }
 

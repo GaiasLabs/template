@@ -1,6 +1,5 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { useFarcaster } from "@/providers/farcaster-provider";
 import { useEffect, useState } from "react";
 
@@ -22,12 +21,12 @@ export function SafeArea({
   bottomNavHeight?: string;
 }) {
   const { farcaster } = useFarcaster();
-  const [propertiesSetup, setPropertiesSetup] = useState(false);
+  const [isReadyToRender, setIsReadyToRender] = useState(false);
 
   const safeAreaInsets = farcaster?.client?.safeAreaInsets;
 
   useEffect(() => {
-    setPropertiesSetup(false);
+    setIsReadyToRender(false);
 
     setProperties([
       ["--t-nav", topNavHeight],
@@ -36,59 +35,33 @@ export function SafeArea({
 
     if (safeAreaInsets !== undefined) {
       setProperties([
-        ["--fc-safe-area-inset-top", `${safeAreaInsets.top}px`],
-        ["--fc-safe-area-inset-bottom", `${safeAreaInsets.bottom}px`],
-        ["--fc-safe-area-inset-left", `${safeAreaInsets.left}px`],
-        ["--fc-safe-area-inset-right", `${safeAreaInsets.right}px`],
+        ["--safe-area-inset-top", `${safeAreaInsets.top}px`],
+        ["--safe-area-inset-bottom", `${safeAreaInsets.bottom}px`],
+        ["--safe-area-inset-left", `${safeAreaInsets.left}px`],
+        ["--safe-area-inset-right", `${safeAreaInsets.right}px`],
+      ]);
+    } else {
+      setProperties([
+        ["--safe-area-inset-top", "env(safe-area-inset-top)"],
+        ["--safe-area-inset-bottom", "env(safe-area-inset-bottom)"],
+        ["--safe-area-inset-left", "env(safe-area-inset-left)"],
+        ["--safe-area-inset-right", "env(safe-area-inset-right)"],
       ]);
     }
 
-    setPropertiesSetup(true);
-  }, [bottomNavHeight, safeAreaInsets, setPropertiesSetup, topNavHeight]);
+    setIsReadyToRender(true);
+  }, [bottomNavHeight, safeAreaInsets, setIsReadyToRender, topNavHeight]);
 
   // Avoid rendering before properties are set to prevent layout shifts
-  if (propertiesSetup === false) {
+  if (isReadyToRender === false) {
     return null;
   }
 
-  const isFarcasterMiniApp = farcaster?.client.safeAreaInsets !== undefined;
-
   return (
     <>
-      <div
-        className={cn(
-          "bg-background pointer-events-none fixed top-0 right-0 left-0 z-99999",
-          isFarcasterMiniApp
-            ? "h-[var(--fc-safe-area-inset-top)]"
-            : "h-[env(safe-area-inset-top)]",
-        )}
-      />
-      <div
-        className={cn(
-          "bg-background pointer-events-none fixed right-0 bottom-0 left-0 z-99999",
-          isFarcasterMiniApp
-            ? "h-[var(--fc-safe-area-inset-bottom)]"
-            : "h-[env(safe-area-inset-bottom)]",
-        )}
-      />
-      <div
-        className={cn(
-          "px-safe",
-          isFarcasterMiniApp
-            ? [
-                "mt-[calc(var(--fc-safe-area-inset-top)+var(--t-nav))]",
-                "mr-[var(--fc-safe-area-inset-right)]",
-                "mb-[calc(var(--fc-safe-area-inset-bottom)+var(--b-nav))]",
-                "ml-[var(--fc-safe-area-inset-left)]",
-              ]
-            : [
-                "mt-[calc(env(safe-area-inset-top)+var(--t-nav))]",
-                "mr-[env(safe-area-inset-right)]",
-                "mb-[calc(env(safe-area-inset-bottom)+var(--b-nav))]",
-                "ml-[env(safe-area-inset-left)]",
-              ],
-        )}
-      >
+      <div className="bg-background pointer-events-none fixed top-0 right-0 left-0 z-99999 h-[var(--safe-area-inset-top)]" />
+      <div className="bg-background pointer-events-none fixed right-0 bottom-0 left-0 z-99999 h-[var(--safe-area-inset-bottom)]" />
+      <div className="px-safe mt-[calc(var(--safe-area-inset-top)+var(--t-nav))] mr-[var(--safe-area-inset-right)] mb-[calc(var(--safe-area-inset-bottom)+var(--b-nav))] ml-[var(--safe-area-inset-left)]">
         <div className="max-w-global mx-auto">{children}</div>
       </div>
     </>
