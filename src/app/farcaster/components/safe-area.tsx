@@ -80,14 +80,12 @@ export function SafeArea({
                 "mr-[var(--fc-safe-area-inset-right)]",
                 "mb-[calc(var(--fc-safe-area-inset-bottom)+var(--b-nav))]",
                 "ml-[var(--fc-safe-area-inset-left)]",
-                "min-h-[calc(100dvh-(var(--fc-safe-area-inset-top)+var(--fc-safe-area-inset-bottom)+var(--t-nav)+var(--b-nav)))]",
               ]
             : [
                 "mt-[calc(env(safe-area-inset-top)+var(--t-nav))]",
                 "mr-[env(safe-area-inset-right)]",
                 "mb-[calc(env(safe-area-inset-bottom)+var(--b-nav))]",
                 "ml-[env(safe-area-inset-left)]",
-                "min-h-[calc(100dvh-(env(safe-area-inset-top)+env(safe-area-inset-bottom)+var(--t-nav)+var(--b-nav)))]",
               ],
         )}
       >
